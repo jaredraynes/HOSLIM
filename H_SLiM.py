@@ -311,8 +311,8 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
         s += 1
         e += 1
         start += 1
-    df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True) #could make this an argument
-    df.drop_duplicates(subset = 'End', keep = 'first', inplace = True) #could make this an argument
+    #df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True) #could make this an argument
+    #df.drop_duplicates(subset = 'End', keep = 'first', inplace = True) #could make this an argument
     df = df[df.Nres >= 3]
     print(df.to_string(index=False))
     if save_Sw == 'yes':
