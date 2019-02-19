@@ -17,22 +17,12 @@ from Bio import SeqIO
 
 #--------------------------------------------------
 
-
-#1)  Download the FASTA sequence
-#2)  Read the FASTA sequence
-#3)  Scan the FASTA sequence for motifs ≥ 3 that each return a value > the K&S or Guy scale value (could make this an optional argument so you could choose) for Ala using equation 12.
-#4)  Add found H-SLiMs to a .txt document and save the .txt document when finished scanning.
-
-
-#Signiture: str -> list
-#Purpose: import a fasta file and a text file containing a list of H-SLiMs with Sx and Nres
-#Stub:
 def fasta_download(accession_number, NresA, NresB):
     '''
     Input protein accession number, starting and ending residue number and return the amino acid sequence.
 
     >>> fasta_download("Q16082", 0, 65)
-    MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS
+    ('MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS', 'Q16082', 'HSPB2', 'Human')
     '''
 
     #retrieve protein sequence and save as a string
@@ -194,10 +184,10 @@ def norm_hydro_order(seq, seq_record_id, protein_name, seq_record_organism, scal
 
     df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Nres', 'f-', 'f+', 'h', 'ho', 'd', 'do'])
 
-    print(df.to_string(index=False))
-
     if save == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_parameters' + '.csv', index = False)
+    
+    return(df.to_string(index=False))
 
 def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, motif_length, output_file_location, save_Sw):
     '''
@@ -255,6 +245,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     start = 0
     s = 3
     e = motif_length
+    motif = ['', '', '', 0, 0, 0, '', 0]
 
     for a, b, c in it.zip_longest(seq, scale_seq, IDP_seq):
         if e < (len(seq) + motif_length): #struggling with range to get to go right up to end of sequence!
@@ -295,28 +286,36 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
                 ho = np.mean(scale_seq_neu)
                 do = np.mean(IDP_seq_neu)
                 num = 0
+
                 for i in range(len(h)):
                     num += (h[i] * d[i])
                     Sw = round(num / (ho * do), 1)
-                #look at adding something so that it only prints/saves one potential seq..must be something to do with the length of seq
-                #add writing to file part or use pandas to make a table.
-                #add the sequence id information at the top
-                #HOW TO CHECK IF SOMETHING ALREADY IN A COLUMN OR ROW IN PD??
-
-                #if data[start][5] == 0:
-                data.append([protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (seq.find(seq1) + 1), seq1, (seq.find(seq1) + len(seq1))])
-
-                df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Sw', 'Nres', 'Start', 'Sequence', 'End'])
+                print(motif)
+                if len(seq1) > len(motif[6]):
+                    motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]
+                else:
+                    data.append(motif)
+                    motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]
+                    if len(seq1) == len(motif[6]):
+                        data.append(motif)
+                        motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]
 
         s += 1
         e += 1
         start += 1
-    #df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True) #could make this an argument
-    #df.drop_duplicates(subset = 'End', keep = 'first', inplace = True) #could make this an argument
+
+    df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Sw', 'Nres', 'Start', 'Sequence', 'End'])
+    df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True) #could make this an argument
+    df.drop_duplicates(subset = 'End', keep = 'first', inplace = True) #could make this an argument
     df = df[df.Nres >= 3]
+    df[['Protein name', 'Uniprot Code', 'Organism']] = df[['Protein name', 'Uniprot Code', 'Organism']].where(df[['Protein name', 'Uniprot Code', 'Organism']].apply(lambda x: x != x.shift()), '')
+    
     print(df.to_string(index=False))
+    
     if save_Sw == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_Sw' + '.csv', index = False)
+    
+    return(df.to_string(index=False))
 
 def main():
     input = argparse.ArgumentParser(prog='HSLiM', formatter_class = argparse.RawDescriptionHelpFormatter, description=textwrap.dedent('''\
