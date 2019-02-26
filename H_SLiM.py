@@ -19,7 +19,7 @@ from Bio import SeqIO
 
 def fasta_download(accession_number, NresA, NresB):
     '''
-    Input protein accession number, starting and ending residue number and return the amino acid sequence.
+    Input the protein accession number, starting and ending residue number and return the amino acid sequence.
 
     >>> fasta_download("Q16082", 0, 65)
     ('MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS', 'Q16082', 'HSPB2', 'Human')
@@ -186,7 +186,7 @@ def norm_hydro_order(seq, seq_record_id, protein_name, seq_record_organism, scal
 
     if save == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_parameters' + '.csv', index = False)
-    
+    print(df.to_string(index=False))
     return(df.to_string(index=False))
 
 def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, motif_length, output_file_location, save_Sw):
@@ -290,9 +290,11 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
                 for i in range(len(h)):
                     num += (h[i] * d[i])
                     Sw = round(num / (ho * do), 1)
-                print(motif)
+
                 if len(seq1) > len(motif[6]):
                     motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]
+                    if len(data) == 0:
+                        data.append(motif)
                 else:
                     data.append(motif)
                     motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]

@@ -2,6 +2,8 @@ import pytest
 import pandas as pd
 import H_SLiM
 
+#to run pytest from the command line be in the directory with your program and then:> python -m pytest
+
 def test_sequence_download1():
 	download_output = H_SLiM.fasta_download("Q16082", 0, 65)
 
@@ -135,6 +137,30 @@ def test_HSLiM_output7():
 
 	assert HSLiM_output == expected
 
-	#ADD TEST FOR P06796
+def test_HSLiM_output8():
+	seq = H_SLiM.fasta_download("Q16082", 0, 65)
+	scale = H_SLiM.scales("K_D")
+	IDP = H_SLiM.order("IDP")
+	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
-#THIS WORKS?? WTF beta-casein	Q9GKK3	Horse	29.3	13	3	ILILACLVALALA	15
+	data = [('HSPB2', 'Q16082', 'Human', 6.3, 3, 47, 'YYV', 49)
+			]
+	
+	df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Sw', 'Nres', 'Start', 'Sequence', 'End'])
+	expected = df.to_string(index=False)
+
+	assert HSLiM_output == expected
+
+def test_HSLiM_output9():
+	seq = H_SLiM.fasta_download("Q16082", 0, 65)
+	scale = H_SLiM.scales("K_D")
+	IDP = H_SLiM.order("IDP")
+	norm_hydro_output = H_SLiM.norm_hydro_order(seq[0], seq[1], seq[2], seq[3], scale, IDP, "", "no_save")
+
+	data = [('HSPB2', 'Q16082', 'Human', 65,	0.108, 0.092,	0.393,	0.477,	0.328, 0.363)
+			]
+	
+	df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Nres', 'f-', 'f+', 'h', 'ho', 'd', 'do'])
+	expected = df.to_string(index=False)
+
+	assert norm_hydro_output == expected
