@@ -20,7 +20,7 @@ def test_HSLiM_output1():
 	data = [('as2-casein', 'B6VPY2', 'Domestic water buffalo', 10.3, 4, 3, 'FFIF', 6),
 			('', '', '', 14.5, 8, 8, 'CLLAVALA', 15),
 			('', '', '', 5.2, 3, 41, 'MAI', 43),
-			('', '', '', 4.8, 3, 113, 'YLY', 115),	
+			('', '', '', 4.8, 3, 113, 'YLY', 115),
 			('', '', '', 8.2, 3, 119, 'IVL', 121)
 			]
 	df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Sw', 'Nres', 'Start', 'Sequence', 'End'])

@@ -42,10 +42,10 @@ def fasta_download(accession_number, NresA, NresB):
         elif 'csn3' in seq_record.annotations['gene_name'].lower():
             protein_name = 'kappa-casein'
         else:
-            protein_name = seq_record.annotations['gene_name'][5:(seq_record.annotations['gene_name'].find(';'))]
+            protein_name = seq_record.annotations['gene_name'][(seq_record.annotations['gene_name'].find('=') + 1):(seq_record.annotations['gene_name'].find(' '))]
     else:
         protein_name = seq_record.name
-        print('NO GENE NAME FOUND IN UNIPROT RECORD, SEE UNIPROT WEBSITE FOR MORE INFOMATION')
+        print('FOR ', accession_number, ' NO GENE NAME FOUND IN UNIPROT RECORD, SEE UNIPROT WEBSITE FOR MORE INFOMATION')
     
     return(seq, seq_record.id, protein_name.translate({ord(i):None for i in '{!@#$}|.:'}), seq_record.annotations["organism"][(seq_record.annotations['organism'].find('(')+1):seq_record.annotations['organism'].find(')')])
 
@@ -186,7 +186,7 @@ def norm_hydro_order(seq, seq_record_id, protein_name, seq_record_organism, scal
 
     if save == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_parameters' + '.csv', index = False)
-    print(df.to_string(index=False))
+    #print(df.to_string(index=False))
     return(df.to_string(index=False))
 
 def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, motif_length, output_file_location, save_Sw):
@@ -312,7 +312,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     df = df[df.Nres >= 3]
     df[['Protein name', 'Uniprot Code', 'Organism']] = df[['Protein name', 'Uniprot Code', 'Organism']].where(df[['Protein name', 'Uniprot Code', 'Organism']].apply(lambda x: x != x.shift()), '')
     
-    print(df.to_string(index=False))
+    #print(df.to_string(index=False))
     
     if save_Sw == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_Sw' + '.csv', index = False)
@@ -327,7 +327,7 @@ def main():
     input.add_argument("accession_number", help = 'Input your protein accession number such as from UniProt e.g. "P02662".', type = str)
     input.add_argument("-a", "--NresA", help = 'Input the start amino acid residue. If not used the full protein sequence will be used.', default = -1, type = int)
     input.add_argument("-b", "--NresB", help = 'Input the end amino acid residue. If not used the full protein sequence will be used.', default = -1, type = int)
-    input.add_argument("-m", "--motif_length", help = 'Input the maximum length of the H-SLiM you are looking for. The default maximum is 11 amino acids. Python indexing means add 1 to the sequence length you would like.', default = 12, type = int)
+    input.add_argument("-m", "--motif_length", help = 'Input the maximum length of the H-SLiM you are looking for. The default maximum is 25 amino acids. Python indexing means add 1 to the sequence length you would like.', default = 25, type = int)
     input.add_argument("-s", "--hydropathy_scale", help = 'Choose to use either the Kyte & Doolittle or Guy hydropathy scale for normalized amino acid residue hydropathy. The default is K_D.', default = "K_D", type = str)
     input.add_argument("-p", "--save_parameters", help = 'Type "yes" if you would like to save the parameters data frame. Make sure to input your absolute file location in the output_file_location option.', default = "no_save", type = str,)
     input.add_argument("-q", "--save_Sw", help = 'Type "yes" if you would like to save the H-SLiMs data frame. Make sure to input your absolute file location in the output_file_location option.', default = "no_save", type = str,)
