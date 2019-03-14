@@ -164,3 +164,6 @@ def test_HSLiM_output9():
 	expected = df.to_string(index=False)
 
 	assert norm_hydro_output == expected
+
+
+#Write new test for 'P02489' because it has no HSLIMS, write a proper error message in program for it too!

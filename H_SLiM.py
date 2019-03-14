@@ -186,7 +186,7 @@ def norm_hydro_order(seq, seq_record_id, protein_name, seq_record_organism, scal
 
     if save == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_parameters' + '.csv', index = False)
-    #print(df.to_string(index=False))
+    print(df.to_string(index=False))
     return(df.to_string(index=False))
 
 def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, motif_length, output_file_location, save_Sw):
@@ -312,7 +312,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     df = df[df.Nres >= 3]
     df[['Protein name', 'Uniprot Code', 'Organism']] = df[['Protein name', 'Uniprot Code', 'Organism']].where(df[['Protein name', 'Uniprot Code', 'Organism']].apply(lambda x: x != x.shift()), '')
     
-    #print(df.to_string(index=False))
+    print(df.to_string(index=False))
     
     if save_Sw == 'yes':
         df.to_csv(output_file_location + seq_record_id + '_' + protein_name + '_' + seq_record_organism + '_Sw' + '.csv', index = False)
