@@ -1,21 +1,21 @@
 import pytest
 import pandas as pd
-import H_SLiM
+import HO_SLiM
 
 #to run pytest from the command line be in the directory with your program and then:> python -m pytest
 
 def test_sequence_download1():
-	download_output = H_SLiM.fasta_download("Q16082", 0, 65)
+	download_output = HO_SLiM.fasta_download("Q16082", 0, 65)
 
 	expected = ('MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS', 'Q16082', 'HSPB2', 'Human')
 
 	assert download_output == expected
 
 def test_HSLiM_output1():
-	seq = H_SLiM.fasta_download('B6VPY2', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('B6VPY2', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_Slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('as2-casein', 'B6VPY2', 'Domestic water buffalo', 10.3, 4, 3, 'FFIF', 6),
 			('', '', '', 14.5, 8, 8, 'CLLAVALA', 15),
@@ -29,10 +29,10 @@ def test_HSLiM_output1():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output2():
-	seq = H_SLiM.fasta_download('D0QJ96', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('D0QJ96', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('CSN1 ECO0000313EMBLACU257801', 'D0QJ96', 'Duckbill platypus', 29.0, 14, 3, 'VLILACLVAVAVAM', 16),
 			('', '', '', 5.1, 3, 44, 'YYL', 46),
@@ -48,10 +48,10 @@ def test_HSLiM_output2():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output3():
-	seq = H_SLiM.fasta_download('D0QJA4', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('D0QJA4', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('D0QJA4_9MAMM', 'D0QJA4', 'Australian echidna', 28.5, 14, 3, 'VFIFACLVAVAMAV', 16),
 			('', '', '', 6.8, 3, 33, 'LVM', 35),
@@ -65,10 +65,10 @@ def test_HSLiM_output3():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output4():
-	seq = H_SLiM.fasta_download('O97944', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('O97944', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('as2-casein', 'O97944', 'Dromedary', 9.9, 4, 3, 'FFIF', 6),
 			('', '', '', 15.7, 8, 8, 'CLLAVVLA', 15),
@@ -82,10 +82,10 @@ def test_HSLiM_output4():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output5():
-	seq = H_SLiM.fasta_download('Q9GKK3', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('Q9GKK3', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('beta-casein', 'Q9GKK3', 'Horse', 29.3, 13, 3, 'ILILACLVALALA', 15),
 			('', '', '', 6.9, 3, 80, 'VVY', 82),
@@ -101,10 +101,10 @@ def test_HSLiM_output5():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output6():
-	seq = H_SLiM.fasta_download('B7VGF9', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('B7VGF9', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('as2-casein', 'B7VGF9', 'Donkey', 10.4, 4, 3, 'FFIF', 6),
 			('', '', '', 14.6, 8, 8, 'CLLAVALA', 15),
@@ -118,10 +118,10 @@ def test_HSLiM_output6():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output7():
-	seq = H_SLiM.fasta_download('P02666', -1, -1)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download('P02666', -1, -1)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('beta-casein', 'P02666', 'Bovine', 28.6, 13, 3, 'VLILACLVALALA', 15),
 			('', '', '', 6.9, 3, 73, 'LVY', 75),
@@ -138,10 +138,10 @@ def test_HSLiM_output7():
 	assert HSLiM_output == expected
 
 def test_HSLiM_output8():
-	seq = H_SLiM.fasta_download("Q16082", 0, 65)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	HSLiM_output =  H_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	seq = HO_SLiM.fasta_download("Q16082", 0, 65)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('HSPB2', 'Q16082', 'Human', 6.3, 3, 47, 'YYV', 49)
 			]
@@ -151,11 +151,11 @@ def test_HSLiM_output8():
 
 	assert HSLiM_output == expected
 
-def test_HSLiM_output9():
-	seq = H_SLiM.fasta_download("Q16082", 0, 65)
-	scale = H_SLiM.scales("K_D")
-	IDP = H_SLiM.order("IDP")
-	norm_hydro_output = H_SLiM.norm_hydro_order(seq[0], seq[1], seq[2], seq[3], scale, IDP, "", "no_save")
+def test_norm_hydro_output_output1():
+	seq = HO_SLiM.fasta_download("Q16082", 0, 65)
+	scale = HO_SLiM.scales("K_D")
+	IDP = HO_SLiM.order("IDP")
+	norm_hydro_output = HO_SLiM.norm_hydro_order(seq[0], seq[1], seq[2], seq[3], scale, IDP, "", "no_save")
 
 	data = [('HSPB2', 'Q16082', 'Human', 65,	0.108, 0.092,	0.393,	0.477,	0.328, 0.363)
 			]
@@ -163,7 +163,6 @@ def test_HSLiM_output9():
 	df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Nres', 'f-', 'f+', 'h', 'ho', 'd', 'do'])
 	expected = df.to_string(index=False)
 
-	assert norm_hydro_output == expected
-
+	assert norm_hydro_output == expected	
 
 #Write new test for 'P02489' because it has no HSLIMS, write a proper error message in program for it too!
