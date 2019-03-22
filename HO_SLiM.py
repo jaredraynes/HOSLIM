@@ -8,12 +8,12 @@ from io import TextIOWrapper
 from Bio import ExPASy
 from Bio import SeqIO
 
-#       __  __  _____   __      __  __    __
-#      / / / / / ___/  / /     /_/ /  \  /  \
-#     / /_/ / / /___  / /     __  / /\ \/ /\ \
-#    / __  / /___  / / /     / / / /  \__/  \ \
-#   / / / / ____/ / / /___  / / / /          \ \
-#  /_/ /_/ /_____/ /_____/ /_/ /_/            \_\
+#       __  __  ______  _____   __      __  __    __
+#      / / / / / __  / / ___/  / /     /_/ /  \  /  \
+#     / /_/ / / / / / / /___  / /     __  / /\ \/ /\ \
+#    / __  / / / / / /___  / / /     / / / /  \__/  \ \
+#   / / / / / /_/ / ____/ / / /___  / / / /          \ \
+#  /_/ /_/ /_____/ /_____/ /_____/ /_/ /_/            \_\
 
 #--------------------------------------------------
 
@@ -81,18 +81,9 @@ def norm_hydro_order(seq, seq_record_id, protein_name, seq_record_organism, scal
     '''
     Input amino acid sequence, hydropathy_scale library and order scale library, return fo, fp, fn, ho, hp, hn and h, do, dp, dn and d
 
-    >>> norm_hydro("MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS", {'A':0.40, 'R':0.00, 'N':0.11, 'D':0.11, 'C':0.78, 'Q':0.11, 'E':0.11, 'G':0.46, 'H':0.14, 'I':1.00, 'L':0.92, 'K':0.07, 'M':0.71, 'F':0.81, 'P':0.32, 'S':0.41, 'T':0.42, 'W':0.40, 'Y':0.36, 'V':0.97}, {'A':0.39, 'R':0.27, 'N':0.41, 'D':0.23, 'C':0.65, 'Q':0.18, 'E':0.12, 'G':0.27, 'H':0.42, 'I':0.69, 'L':0.62, 'K':0.10, 'M':0.44, 'F':0.67, 'P':0.00, 'S':0.14, 'T':0.35, 'W':1.00, 'Y':0.72, 'V':0.59})
-    fo = 0.8
-    ho = 0.477
-    do = 0.363
-    fp = 0.092
-    hp = 0.0
-    dp = 0.27
-    fn = 0.108
-    hn = 0.11
-    dn = 0.12
-    h =  0.393
-    d =  0.329
+    >>> seq = HO_SLiM.fasta_download("Q16082", 0, 65); scale = HO_SLiM.scales("K_D"); IDP = HO_SLiM.order("IDP"); norm_hydro_output = HO_SLiM.norm_hydro_order(seq[0], seq[1], seq[2], seq[3], scale, IDP, "", "no_save")
+    Protein name Uniprot Code Organism  Nres     f-     f+      h     ho      d     do
+    HSPB2       Q16082    Human    65  0.108  0.092  0.393  0.477  0.328  0.363
     '''
 
     scale_seq = []
@@ -193,8 +184,9 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     '''
     Input amino acid sequence, hydropathy_scale library and order scale library, return Sw which is a parameter for the hydrophobic and order-promoting short-linear motif (H-SLiM)
 
-    >>> h_slim("MSGRSVPHAHPATAEYEFANPSRLGEQRFGEGLLPEEILTPTLYHGYYVRPRAAPAGEGSRAGAS", {'A':0.40, 'R':0.00, 'N':0.11, 'D':0.11, 'C':0.78, 'Q':0.11, 'E':0.11, 'G':0.46, 'H':0.14, 'I':1.00, 'L':0.92, 'K':0.07, 'M':0.71, 'F':0.81, 'P':0.32, 'S':0.41, 'T':0.42, 'W':0.40, 'Y':0.36, 'V':0.97}, {'A':0.39, 'R':0.27, 'N':0.41, 'D':0.23, 'C':0.65, 'Q':0.18, 'E':0.12, 'G':0.27, 'H':0.42, 'I':0.69, 'L':0.62, 'K':0.10, 'M':0.44, 'F':0.67, 'P':0.00, 'S':0.14, 'T':0.35, 'W':1.00, 'Y':0.72, 'V':0.59})
-    For sequence 47 YYV 49 Sw = 6.297
+    >>> seq = HO_SLiM.fasta_download("Q16082", 0, 65); scale = HO_SLiM.scales("K_D"); IDP = HO_SLiM.order("IDP"); norm_hydro_output = HO_SLiM.hslim(seq[0], seq[1], seq[2], seq[3], scale, IDP, "", "no_save")
+    Protein name Uniprot Code Organism   Sw  Nres  Start Sequence  End
+    HSPB2       Q16082    Human  6.3     3     47      YYV   49
     '''
 
     #Convert the amino acid sequence to a list of hydropathy values by accessing the scale dictionary
@@ -202,7 +194,6 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     for a in seq:
         if a in scale.keys():
             scale_seq.append((scale[a]))
-    #print(scale_seq)
 
     #Convert only neutral amino acids to list of neutral hydropathy values by accessing the scale dictionary
     scale_seq_neu = []
@@ -240,7 +231,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
             IDP_seq_neu.append((IDP[a]))
 
 
-    #Go through the amino acid sequence and return Sw for H-SLiMs
+    #Go through the amino acid sequence and return Sw for HO-SLiMs
     data = []
     start = 0
     s = 3
@@ -277,7 +268,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
                     continue
                 if 'T' in seq1:
                     continue
-                #this selector determines whether to bypass 'H' if it is in the K_D scale or keep it in for the Hug scale
+                #this selector determines whether to bypass 'H' if it is in the K_D scale or keep it in for the Guy scale
                 if scale['H'] == 0.14:
                     if 'H' in seq1:
                         continue
@@ -301,14 +292,13 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
                     if len(seq1) == len(motif[6]):
                         data.append(motif)
                         motif = [protein_name, seq_record_id, seq_record_organism, Sw, len(seq1), (s - 2), seq1, ((s - 3) + len(seq1))]
-
         s += 1
         e += 1
         start += 1
 
     df = pd.DataFrame(data, columns = ['Protein name', 'Uniprot Code', 'Organism', 'Sw', 'Nres', 'Start', 'Sequence', 'End'])
-    df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True) #could make this an argument
-    df.drop_duplicates(subset = 'End', keep = 'first', inplace = True) #could make this an argument
+    df.drop_duplicates(subset = 'Start', keep = 'last', inplace = True)
+    df.drop_duplicates(subset = 'End', keep = 'first', inplace = True)
     df = df[df.Nres >= 3]
     df[['Protein name', 'Uniprot Code', 'Organism']] = df[['Protein name', 'Uniprot Code', 'Organism']].where(df[['Protein name', 'Uniprot Code', 'Organism']].apply(lambda x: x != x.shift()), '')
     
@@ -320,7 +310,7 @@ def h_slim(seq, seq_record_id, protein_name, seq_record_organism, scale, IDP, mo
     return(df.to_string(index=False))
 
 def main():
-    input = argparse.ArgumentParser(prog='HSLiM', formatter_class = argparse.RawDescriptionHelpFormatter, description=textwrap.dedent('''\
+    input = argparse.ArgumentParser(prog='HO_SLiM', formatter_class = argparse.RawDescriptionHelpFormatter, description=textwrap.dedent('''\
          -------------------------------------------------------
          For the investigation of protein sequences for H-SLiMs.
          See the published paper: Holt, Raynes and Carver (2019)'''))
@@ -328,7 +318,7 @@ def main():
     input.add_argument("-a", "--NresA", help = 'Input the start amino acid residue. If not used the full protein sequence will be used.', default = -1, type = int)
     input.add_argument("-b", "--NresB", help = 'Input the end amino acid residue. If not used the full protein sequence will be used.', default = -1, type = int)
     input.add_argument("-m", "--motif_length", help = 'Input the maximum length of the H-SLiM you are looking for. The default maximum is 25 amino acids. Python indexing means add 1 to the sequence length you would like.', default = 25, type = int)
-    input.add_argument("-s", "--hydropathy_scale", help = 'Choose to use either the Kyte & Doolittle or Guy hydropathy scale for normalized amino acid residue hydropathy. The default is K_D.', default = "K_D", type = str)
+    input.add_argument("-s", "--hydropathy_scale", help = 'Choose to use either the Kyte & Doolittle or Guy hydropathy scale for normalized amino acid residue hydropathy. The default is K_D.', default = "Guy", type = str)
     input.add_argument("-p", "--save_parameters", help = 'Type "yes" if you would like to save the parameters data frame. Make sure to input your absolute file location in the output_file_location option.', default = "no_save", type = str,)
     input.add_argument("-q", "--save_Sw", help = 'Type "yes" if you would like to save the H-SLiMs data frame. Make sure to input your absolute file location in the output_file_location option.', default = "no_save", type = str,)
     input.add_argument("-r", "--output_file_location", help = 'Type your absolute file location to save a .csv of the parameters table. The default will save it to the same file location', default = "", type = str)
