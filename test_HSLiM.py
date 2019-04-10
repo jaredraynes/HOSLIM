@@ -15,7 +15,7 @@ def test_HSLiM_output1():
 	seq = HO_SLiM.fasta_download('B6VPY2', -1, -1)
 	scale = HO_SLiM.scales("K_D")
 	IDP = HO_SLiM.order("IDP")
-	HSLiM_output =  HO_SLiM.h_Slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
+	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
 	data = [('as2-casein', 'B6VPY2', 'Domestic water buffalo', 10.3, 4, 3, 'FFIF', 6),
 			('', '', '', 14.5, 8, 8, 'CLLAVALA', 15),
@@ -34,7 +34,7 @@ def test_HSLiM_output2():
 	IDP = HO_SLiM.order("IDP")
 	HSLiM_output =  HO_SLiM.h_slim(seq[0], seq[1], seq[2], seq[3], scale, IDP, 25, "", "no_save")
 
-	data = [('CSN1 ECO0000313EMBLACU257801', 'D0QJ96', 'Duckbill platypus', 29.0, 14, 3, 'VLILACLVAVAVAM', 16),
+	data = [('CSN1', 'D0QJ96', 'Duckbill platypus', 29.0, 14, 3, 'VLILACLVAVAVAM', 16),
 			('', '', '', 5.1, 3, 44, 'YYL', 46),
 			('', '', '', 8.1, 3, 69, 'LLL', 71),
 			('', '', '', 7.0, 3, 138, 'YFI', 140),
