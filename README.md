@@ -1,2 +1,2 @@
-# HSLIM
-A repository for the HSLIM Python program for the analysis of Order-promoting, hydrophobic short linear motifs (H-SLiMs)
+# HOSLIM
+A repository for the HOSLIM Python program for the analysis of Hydropathic, Order-promoting, Short Linear Motifs (H-SLiMs)
